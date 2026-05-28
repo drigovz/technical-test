@@ -8,18 +8,13 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 /// </summary>
 public class UpdateSaleProfile : Profile
 {
-    /// <summary>
-    /// Initializes a new instance of UpdateSaleProfile.
-    /// </summary>
     public UpdateSaleProfile()
     {
         CreateMap<UpdateSaleCommand, Sale>()
-            .ForMember(dest => dest.Items, opt => opt.Ignore()); // We'll handle items separately
+            .ForMember(dest => dest.Items, opt => opt.Ignore());
 
         CreateMap<UpdateSaleItemDto, SaleItem>();
-
         CreateMap<Sale, UpdateSaleResult>();
-
         CreateMap<SaleItem, UpdateSaleItemResult>();
     }
 }

@@ -7,9 +7,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 /// </summary>
 public class UpdateSaleCommandValidator : AbstractValidator<UpdateSaleCommand>
 {
-    /// <summary>
-    /// Initializes a new instance of UpdateSaleCommandValidator.
-    /// </summary>
     public UpdateSaleCommandValidator()
     {
         RuleFor(command => command.Id)
@@ -46,9 +43,6 @@ public class UpdateSaleCommandValidator : AbstractValidator<UpdateSaleCommand>
 /// </summary>
 public class UpdateSaleItemDtoValidator : AbstractValidator<UpdateSaleItemDto>
 {
-    /// <summary>
-    /// Initializes a new instance of UpdateSaleItemDtoValidator.
-    /// </summary>
     public UpdateSaleItemDtoValidator()
     {
         RuleFor(item => item.Id)

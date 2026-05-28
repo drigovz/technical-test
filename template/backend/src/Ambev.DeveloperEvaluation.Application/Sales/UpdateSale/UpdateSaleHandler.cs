@@ -44,7 +44,6 @@ public sealed class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, Updat
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        // Get the existing sale
         var existingSale = await _saleRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingSale == null)
             throw new KeyNotFoundException($"Sale with ID {command.Id} not found");
@@ -52,7 +51,6 @@ public sealed class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, Updat
         if (existingSale.IsCancelled)
             throw new InvalidOperationException("Cannot update a cancelled sale");
 
-        // Check if sale number is being changed to an existing one
         if (existingSale.SaleNumber != command.SaleNumber)
         {
             var saleWithSameNumber = await _saleRepository.GetBySaleNumberAsync(command.SaleNumber, cancellationToken);
@@ -60,34 +58,27 @@ public sealed class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, Updat
                 throw new InvalidOperationException($"Sale with number {command.SaleNumber} already exists");
         }
 
-        // Update sale properties
         _mapper.Map(command, existingSale);
         existingSale.Items.Clear();
 
-        // Process each item and apply business rules
         foreach (var itemDto in command.Items)
         {
             var item = _mapper.Map<SaleItem>(itemDto);
             item.SaleId = existingSale.Id;
 
-            // Apply discount based on business rules
             item.ApplyDiscount();
 
             existingSale.Items.Add(item);
         }
 
-        // Calculate total amount
         existingSale.UpdateTotalAmount();
 
-        // Update the sale
         var updatedSale = await _saleRepository.UpdateAsync(existingSale, cancellationToken);
 
-        // Publish SaleModified event (logging instead of actual message broker)
         var saleModifiedEvent = new SaleModifiedEvent(updatedSale);
         _logger.LogInformation("SaleModified event published: SaleNumber={SaleNumber}, TotalAmount={TotalAmount}, Customer={CustomerName}",
             saleModifiedEvent.Sale.SaleNumber, saleModifiedEvent.Sale.TotalAmount, saleModifiedEvent.Sale.CustomerName);
 
-        // Map result
         var result = _mapper.Map<UpdateSaleResult>(updatedSale);
         return result;
     }

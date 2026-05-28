@@ -29,7 +29,7 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
     public Guid CustomerId { get; set; }
 
     /// <summary>
-    /// Gets or sets the customer name (denormalized for reference).
+    /// Gets or sets the customer name.
     /// </summary>
     public string CustomerName { get; set; } = string.Empty;
 
@@ -39,7 +39,7 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
     public Guid BranchId { get; set; }
 
     /// <summary>
-    /// Gets or sets the branch name (denormalized for reference).
+    /// Gets or sets the branch name.
     /// </summary>
     public string BranchName { get; set; } = string.Empty;
 
@@ -80,7 +80,7 @@ public class UpdateSaleItemDto
     public Guid ProductId { get; set; }
 
     /// <summary>
-    /// Gets or sets the product name (denormalized for reference).
+    /// Gets or sets the product name.
     /// </summary>
     public string ProductName { get; set; } = string.Empty;
 
