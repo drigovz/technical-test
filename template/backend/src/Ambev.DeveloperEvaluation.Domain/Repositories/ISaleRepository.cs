@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 /// <summary>
 /// Repository interface for Sale entities.
 /// </summary>
-public sealed interface ISaleRepository
+public interface ISaleRepository
 {
     /// <summary>
     /// Creates a new sale asynchronously.
