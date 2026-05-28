@@ -7,9 +7,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 /// </summary>
 public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
 {
-    /// <summary>
-    /// Initializes a new instance of CreateSaleCommandValidator.
-    /// </summary>
     public CreateSaleCommandValidator()
     {
         RuleFor(command => command.SaleNumber)
@@ -43,9 +40,6 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
 /// </summary>
 public class CreateSaleItemDtoValidator : AbstractValidator<CreateSaleItemDto>
 {
-    /// <summary>
-    /// Initializes a new instance of CreateSaleItemDtoValidator.
-    /// </summary>
     public CreateSaleItemDtoValidator()
     {
         RuleFor(item => item.ProductId)

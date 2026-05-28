@@ -17,9 +17,6 @@ public sealed class CreateSaleHandler : IRequestHandler<CreateSaleCommand, Creat
     private readonly IMapper _mapper;
     private readonly ILogger<CreateSaleHandler> _logger;
 
-    /// <summary>
-    /// Initializes a new instance of CreateSaleHandler.
-    /// </summary>
     /// <param name="saleRepository">The sale repository.</param>
     /// <param name="mapper">The AutoMapper instance.</param>
     /// <param name="logger">The logger.</param>
