@@ -1,0 +1,71 @@
+using FluentValidation;
+
+namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+
+/// <summary>
+/// Validator for UpdateSaleCommand.
+/// </summary>
+public class UpdateSaleCommandValidator : AbstractValidator<UpdateSaleCommand>
+{
+    /// <summary>
+    /// Initializes a new instance of UpdateSaleCommandValidator.
+    /// </summary>
+    public UpdateSaleCommandValidator()
+    {
+        RuleFor(command => command.Id)
+            .NotEmpty().WithMessage("Sale ID is required");
+
+        RuleFor(command => command.SaleNumber)
+            .NotEmpty().WithMessage("Sale number is required")
+            .MaximumLength(50).WithMessage("Sale number must not exceed 50 characters");
+
+        RuleFor(command => command.CustomerId)
+            .NotEmpty().WithMessage("Customer ID is required");
+
+        RuleFor(command => command.CustomerName)
+            .NotEmpty().WithMessage("Customer name is required")
+            .MaximumLength(100).WithMessage("Customer name must not exceed 100 characters");
+
+        RuleFor(command => command.BranchId)
+            .NotEmpty().WithMessage("Branch ID is required");
+
+        RuleFor(command => command.BranchName)
+            .NotEmpty().WithMessage("Branch name is required")
+            .MaximumLength(100).WithMessage("Branch name must not exceed 100 characters");
+
+        RuleFor(command => command.Items)
+            .NotNull().WithMessage("Sale items are required")
+            .Must(items => items.Count > 0).WithMessage("Sale must have at least one item");
+
+        RuleForEach(command => command.Items).SetValidator(new UpdateSaleItemDtoValidator());
+    }
+}
+
+/// <summary>
+/// Validator for UpdateSaleItemDto.
+/// </summary>
+public class UpdateSaleItemDtoValidator : AbstractValidator<UpdateSaleItemDto>
+{
+    /// <summary>
+    /// Initializes a new instance of UpdateSaleItemDtoValidator.
+    /// </summary>
+    public UpdateSaleItemDtoValidator()
+    {
+        RuleFor(item => item.Id)
+            .NotEmpty().WithMessage("Sale item ID is required");
+
+        RuleFor(item => item.ProductId)
+            .NotEmpty().WithMessage("Product ID is required");
+
+        RuleFor(item => item.ProductName)
+            .NotEmpty().WithMessage("Product name is required")
+            .MaximumLength(100).WithMessage("Product name must not exceed 100 characters");
+
+        RuleFor(item => item.Quantity)
+            .GreaterThan(0).WithMessage("Quantity must be greater than 0")
+            .LessThanOrEqualTo(20).WithMessage("Quantity cannot exceed 20 items");
+
+        RuleFor(item => item.UnitPrice)
+            .GreaterThan(0).WithMessage("Unit price must be greater than 0");
+    }
+}
