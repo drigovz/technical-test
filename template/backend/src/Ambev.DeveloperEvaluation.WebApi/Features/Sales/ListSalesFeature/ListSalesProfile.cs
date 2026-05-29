@@ -10,7 +10,8 @@ public class ListSalesProfile : Profile
 {
     public ListSalesProfile()
     {
-        CreateMap<ListSalesResult, ListSalesResponse>();
+        CreateMap<ListSalesResult, ListSalesResponse>()
+            .ForMember(dest => dest.Sales, opt => opt.MapFrom(src => src.Sales));
         CreateMap<ListSaleItemResult, ListSaleItemResponse>();
     }
 }
